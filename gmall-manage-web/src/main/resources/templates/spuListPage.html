@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品SPU属性</title>
+    <!--<script type="text/javascript" src="/easyui/datagrid-detailview.js"></script>-->
+
+    <!--<script type="text/javascript" src="/webuploader/webuploader.js"></script>-->
+</head>
+<body>
+    <div class="easyui-panel" title="" data-options="border:true">
+        <!-- ---------------------------- 列表 ---------------------------->
+        <table class="easyui-datagrid" id="spulist_dg" title="SPU列表"
+               data-options="toolbar:'#spulist_tb',fitColumns:true,singleSelect:true,method:'get'">
+            <thead>
+            <tr>
+                <th data-options="field:'id'"width="10%">商品ID</th>
+                <th data-options="field:'spuName'" width="30%">商品名称</th>
+                <th data-options="field:'description'" width="60%">商品描述</th>
+            </tr>
+            </thead>
+            <!-- -------------列表的工具栏---------------- -->
+            <div id="spulist_tb" style="padding: 5px;height: auto">
+                <div style="margin-bottom: 5px">
+                    <a href="javascript:addSpuInfo()" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true">编辑</a>
+                    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
+                    <a href="javascript:addSkuInfo()" class="easyui-linkbutton" iconCls="icon-add" plain="true">增加SKU</a>
+                    <a href="javascript:showSkuInfoList()" class="easyui-linkbutton" iconCls="icon-search" plain="true">SKU列表</a>
+                </div>
+                <div>
+                    一级分类:<select data-options="onSelect: function(rec){
+                               $('#ctg2ForSpuList').combobox('clear');
+                               $('#ctg3ForSpuList').combobox('clear');
+                               $('#ctg2ForSpuList').combobox('reload','/getCatalog2?catalog1Id='+rec.id);},
+                            valueField:'id',textField:'name',url:'/getCatalog1'" id="ctg1ForSpuList" class="easyui-combobox" style="width: 100px"></select>
+                    二级分类:<select data-options="onSelect: function(rec){
+                             $('#ctg3ForSpuList').combobox('clear');
+                             $('#ctg3ForSpuList').combobox('reload','/getCatalog3?catalog2Id='+rec.id);}, valueField:'id',textField:'name'"
+                                 id="ctg2ForSpuList" class="easyui-combobox" style="width: 100px"></select>
+                    三级分类:<select data-options="valueField:'id',textField:'name',
+                             onSelect:function(rec){
+                             $('#spulist_dg').datagrid({url:'spuList?catalog3Id='+rec.id});}"
+                                 id="ctg3ForSpuList" class="easyui-combobox" style="width: 100px"></select>
+                    <a href="javascript:reloadSpuList();" class="easyui-linkbutton" data-options="iconCls:'icon-search'" style="width:120px">刷新属性列表</a>
+                </div>
+            </div>
+        </table>
+        <div th:include="spuInfoPage"></div>
+        <div th:include="skuListPage"></div>
+        <div th:include="skuInfoPage"></div>
+        <script language="JavaScript">
+
+            function addSkuInfo() {
+                var spu = $("#spulist_dg").datagrid("getSelected");
+//                alert(spu.id);
+                if(spu){
+//                    alert("打开sku添加页面");
+                    $('#sku_dlg').dialog("open");
+                    initSkuInfoDlg(spu.id)
+                }else {
+                    alert("请选择spu");
+                }
+            }
+
+
+            function addSpuInfo() {
+                $("#spu_dlg").dialog("open");
+                initSpuInfoDlg();
+            }
+            function reloadSpuList(){
+                var catalog3Id = $("#ctg3ForSpuList").combobox("getValue");
+
+                if(!catalog3Id){
+                    catalog3Id = "61";
+                }
+
+                $('#spulist_dg').datagrid({url:'spuList?catalog3Id='+catalog3Id});
+            }
+        </script>
+    </div>
+</body>
+</html>

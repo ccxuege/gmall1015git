@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>主界面</title>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="/webuploader/webuploader.css">
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/webuploader/webuploader.js"></script>
+    <script type="text/javascript" src="/easyui/datagrid-detailview.js"></script>
+</head>
+    <body class="easyui-layout">
+        <div data-options="region:'north',title:'头部',split:true" style="height:100px;">
+            <h1> 顶部 </h1>
+        </div>
+        <div data-options="region:'south',title:'底部',split:true" style="height:100px;">
+            <h1>底部 </h1>
+        </div>
+        <div data-options="region:'west',title:'左部',split:true" style="width:200px;padding: 10px">
+            <div class="easyui-accordion">
+                <div title="属性管理" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+                    <ul>
+                        <li><a href="javascript:add_tab('平台属性管理','attrListPage')">平台属性管理</a></li>
+                    </ul>
+                </div>
+                <div title="商品管理" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+                    <ul>
+                        <li><a href="javascript:add_tab('商品Spu属性','spuListPage')">商品Spu属性页面</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div data-options="region:'center',title:'中部'"  >
+            <div id="tt" class="easyui-tabs"></div>
+        </div>
+
+    <script language="JavaScript">
+        function add_tab(title,url) {
+            var b = $('#tt').tabs('exists',title);
+//            alert(b);
+            if (!b){
+                $('#tt').tabs('add',{
+                    title:title,
+//                    content:'Tab Body',
+                    href:url,
+                    closable:true,
+                    tools:[{
+                        iconCls:'icon-mini-refresh',
+                        handler:function(){
+                            alert('refresh');
+                        }
+                    }]
+                });
+            }else {
+                $('#tt').tabs('select',title);
+            }
+        }
+    </script>
+    </body>
+</html>
