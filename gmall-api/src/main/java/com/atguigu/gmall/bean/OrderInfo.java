@@ -84,11 +84,11 @@ public class OrderInfo implements Serializable {
     }
 
 
-    public String getTradeBody(){
+/*    public String getTradeBody(){
         OrderDetail orderDetail = orderDetailList.get(0);
         String tradeBody=orderDetail.getSkuName()+"等"+orderDetailList.size()+"件商品";
         return tradeBody;
-    }
+    }*/
 
     public String getId() {
         return id;

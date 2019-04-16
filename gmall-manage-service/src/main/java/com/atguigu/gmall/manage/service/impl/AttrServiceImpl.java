@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Set;
+
 @Service
 public class AttrServiceImpl implements AttrService {
 
@@ -73,5 +75,13 @@ public class AttrServiceImpl implements AttrService {
 
         return baseAttrInfos;
 
+    }
+
+    @Override
+    public List<BaseAttrInfo> getAttrListByValueIds(Set<String> ids) {
+
+        String idJoin = StringUtils.join(ids, ",");
+        List<BaseAttrInfo> baseAttrInfos = baseAttrInfoMapper.selectAttrListByValueIds(idJoin);
+        return baseAttrInfos;
     }
 }

@@ -14,4 +14,10 @@ public interface UserService {
     List<UserInfo> allUser();
 
     List<UserInfo> getUserByUsername(String loginName);
+
+    UserInfo login(UserInfo userInfoParam);
+
+    List<UserAddress> getAllAddressByUser(String userId);
+
+    UserAddress getAddressById(String deliveryAddress);
 }
